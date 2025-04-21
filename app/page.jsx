@@ -3,10 +3,14 @@
 import React, { Suspense, useState, useEffect } from "react";
 import dynamic from 'next/dynamic';
 import TypewriterText from "./components/TypewriterText";
+import AnimatedHeader from "./components/AnimatedHeader";
+import CountUpNumber from "./components/CountUpNumber";
 import GlowButton from "./components/GlowButton";
 import LoadingScreen from "./components/LoadingScreen";
+import FloatingGlow from "./components/FloatingGlow";
 import { JetBrains_Mono } from 'next/font/google';
 
+// Dynamically import heavy components
 const SplineScene = dynamic(() => import('./components/SplineScene'), {
   loading: () => <LoadingScreen progress={75} />,
   ssr: false
@@ -14,26 +18,6 @@ const SplineScene = dynamic(() => import('./components/SplineScene'), {
 
 const ParticleBackground = dynamic(() => import('./components/ParticlesBackground'), {
   loading: () => <LoadingScreen progress={25} />,
-  ssr: false
-});
-
-const AnimatedHeader = dynamic(() => import('./components/AnimatedHeader'), {
-  loading: () => <div className="h-24" />,
-  ssr: false
-});
-
-const FloatingGlow = dynamic(() => import('./components/FloatingGlow'), {
-  loading: () => null,
-  ssr: false
-});
-
-const CursorGlow = dynamic(() => import('./components/CursorGlow'), {
-  loading: () => null,
-  ssr: false
-});
-
-const CountUpNumber = dynamic(() => import('./components/CountUpNumber'), {
-  loading: () => <span>0</span>,
   ssr: false
 });
 
@@ -47,6 +31,7 @@ export default function LandingPage() {
   const [loadingProgress, setLoadingProgress] = useState(0);
 
   useEffect(() => {
+    // Simulate loading progress
     const timer = setInterval(() => {
       setLoadingProgress(prev => {
         if (prev >= 100) {
@@ -67,8 +52,10 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0B061E] to-[#19072F] text-white overflow-hidden relative">
+      {/* Floating Glow Effect */}
       <FloatingGlow />
       
+      {/* Background Design Element */}
       <Suspense fallback={<LoadingScreen progress={25} />}>
         <ParticleBackground />
       </Suspense>
@@ -78,6 +65,7 @@ export default function LandingPage() {
         className="absolute right-0 top-0 h-full object-cover pointer-events-none opacity-90 z-0"
       />
 
+      {/* Navigation */}
       <div className="flex justify-between items-center px-10 py-6 relative z-50">
         <div className={`flex gap-10 text-sm ${jetBrainsMono.className}`}>
           <a href="#" className="hover:underline">Drop</a>
@@ -90,7 +78,9 @@ export default function LandingPage() {
         </GlowButton>
       </div>
 
+      {/* Hero Section */}
       <div className="px-10 py-12 grid grid-cols-1 md:grid-cols-2 gap-10 relative">
+        {/* Text Content */}
         <div className="z-20 relative">
           <AnimatedHeader />
           
@@ -115,31 +105,26 @@ export default function LandingPage() {
           <div className="mt-10 flex gap-12 text-sm">
             <div>
               <p className="text-white font-bold text-xl">
-                <Suspense fallback={<span>0</span>}>
-                  <CountUpNumber end={25.5} duration={1500} suffix=" K" />
-                </Suspense>
+                <CountUpNumber end={25.5} duration={1500} suffix=" K" />
               </p>
               <p className={`text-gray-400 ${jetBrainsMono.className}`}>Artwork</p>
             </div>
             <div>
               <p className="text-white font-bold text-xl">
-                <Suspense fallback={<span>0</span>}>
-                  <CountUpNumber end={15.5} duration={1500} suffix="+ M" />
-                </Suspense>
+                <CountUpNumber end={15.5} duration={1500} suffix="+ M" />
               </p>
               <p className={`text-gray-400 ${jetBrainsMono.className}`}>Artist</p>
             </div>
             <div>
               <p className="text-white font-bold text-xl">
-                <Suspense fallback={<span>0</span>}>
-                  <CountUpNumber end={10.5} duration={1500} suffix="+ K" />
-                </Suspense>
+                <CountUpNumber end={10.5} duration={1500} suffix="+ K" />
               </p>
               <p className={`text-gray-400 ${jetBrainsMono.className}`}>Auction</p>
             </div>
           </div>
         </div>
 
+        {/* Spline Scene Section */}
         <div className="relative z-10">
           <Suspense fallback={<LoadingScreen progress={75} />}>
             <SplineScene />
